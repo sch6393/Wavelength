@@ -1,4 +1,4 @@
-package sch6393.app.wavelength.ui.gallery
+package sch6393.app.wavelength.ui.info
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import sch6393.app.wavelength.R
 
-class GalleryFragment : Fragment() {
+class InfoFragment : Fragment() {
 
-    private lateinit var galleryViewModel: GalleryViewModel
+    private lateinit var infoViewModel: InfoViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        galleryViewModel =
-                ViewModelProvider(this).get(GalleryViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_gallery, container, false)
-        val textView: TextView = root.findViewById(R.id.text_gallery)
-        galleryViewModel.text.observe(viewLifecycleOwner, Observer {
+        infoViewModel =
+                ViewModelProvider(this).get(InfoViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_info, container, false)
+        val textView: TextView = root.findViewById(R.id.text_slideshow)
+        infoViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

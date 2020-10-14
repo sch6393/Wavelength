@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wavelength">
         <activity
+            android:name=".FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_fullscreen"
+            android:theme="@style/Theme.Wavelength.Fullscreen"></activity>
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Wavelength.NoActionBar">
