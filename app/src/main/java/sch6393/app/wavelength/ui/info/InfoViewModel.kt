@@ -14,7 +14,8 @@ class InfoViewModel : ViewModel() {
 
     private val _text2 = MutableLiveData<String>().apply {
         value = "붉은 빛을 내는 긴 파장(670nm)을 눈에 쐬면 원추세포와 간상세포의 활성화에 도움을 줄 수 있어요." +
-                "\n평소 명암 구분과 색 구분, 특히 파란색 구분이 잘 안된다면 한 번 붉은 빛을 눈에 쐬보세요."
+                "\n평소 명암 구분과 색 구분, 특히 파란색 구분이 잘 안된다면 한 번 붉은 빛을 눈에 쐬보세요." +
+                "\n(논문에는 매일 아침 3분간 쐬도록 되어있어요.)"
     }
     val text2: LiveData<String> = _text2
 

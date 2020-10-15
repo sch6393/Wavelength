@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import sch6393.app.wavelength.R
 
@@ -32,12 +31,12 @@ class InfoFragment : Fragment() {
                 ViewModelProvider(this).get(InfoViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_info, container, false)
         val textView: TextView = root.findViewById(R.id.text_info)
-        infoViewModel.text.observe(viewLifecycleOwner, Observer {
+        infoViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
 
         val textView2: TextView = root.findViewById(R.id.text_info2)
-        infoViewModel.text2.observe(viewLifecycleOwner, Observer {
+        infoViewModel.text2.observe(viewLifecycleOwner, {
             val spannableStringBuilder = SpannableStringBuilder(it)
             spannableStringBuilder.setSpan(
                 ForegroundColorSpan(Color.BLUE),
@@ -56,7 +55,7 @@ class InfoFragment : Fragment() {
         })
 
         val textView3: TextView = root.findViewById(R.id.text_info3)
-        infoViewModel.text3.observe(viewLifecycleOwner, Observer {
+        infoViewModel.text3.observe(viewLifecycleOwner, {
             textView3.text = it
             textView3.setTextColor(Color.RED)
         })

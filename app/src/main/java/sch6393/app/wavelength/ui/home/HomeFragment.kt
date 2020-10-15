@@ -9,10 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import sch6393.app.wavelength.FullscreenActivity
-import sch6393.app.wavelength.MainActivity
 import sch6393.app.wavelength.R
 
 class HomeFragment : Fragment() {
@@ -28,15 +26,15 @@ class HomeFragment : Fragment() {
                 ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
+        homeViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
 
         val buttonStart: Button = root.findViewById(R.id.button_start)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
+        homeViewModel.text.observe(viewLifecycleOwner, {
             buttonStart.setOnClickListener {
                 activity?.let{
-                    val intent = Intent (it, FullscreenActivity::class.java)
+                    val intent = Intent(it, FullscreenActivity::class.java)
                     intent.putExtra("COLOR", Color.RED)
                     it.startActivity(intent)
                 }
