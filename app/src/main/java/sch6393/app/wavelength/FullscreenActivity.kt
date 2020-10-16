@@ -4,21 +4,28 @@ import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
-import android.view.MotionEvent
+import android.os.Looper
+import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import java.util.*
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
+//@Suppress("DEPRECATION")
 class FullscreenActivity : AppCompatActivity() {
+
+    private var time = 181
+    private var timerTask: Timer? = null
+    private lateinit var textViewTime: TextView
+
     private lateinit var fullscreenContent: TextView
     private lateinit var fullscreenContentControls: LinearLayout
-    private val hideHandler = Handler()
+    private val hideHandler = Handler(Looper.getMainLooper())
 
     @SuppressLint("InlinedApi")
     private val hidePart2Runnable = Runnable {
@@ -49,17 +56,17 @@ class FullscreenActivity : AppCompatActivity() {
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    private val delayHideTouchListener = View.OnTouchListener { view, motionEvent ->
-        when (motionEvent.action) {
-            MotionEvent.ACTION_DOWN -> if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS)
-            }
-            MotionEvent.ACTION_UP -> view.performClick()
-            else -> {
-            }
-        }
-        false
-    }
+//    private val delayHideTouchListener = View.OnTouchListener { view, motionEvent ->
+//        when (motionEvent.action) {
+//            MotionEvent.ACTION_DOWN -> if (AUTO_HIDE) {
+//                delayedHide(AUTO_HIDE_DELAY_MILLIS)
+//            }
+//            MotionEvent.ACTION_UP -> view.performClick()
+//            else -> {
+//            }
+//        }
+//        false
+//    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,9 +91,16 @@ class FullscreenActivity : AppCompatActivity() {
 //        findViewById<Button>(R.id.dummy_button).setOnTouchListener(delayHideTouchListener)
 
         // Set Color
-        var color = intent.getIntExtra("COLOR", 0)
-        var backGround: FrameLayout = findViewById(R.id.frameLayout_bg)
+        val color = intent.getIntExtra("COLOR", 0)
+        val backGround: FrameLayout = findViewById(R.id.frameLayout_bg)
         backGround.setBackgroundColor(color)
+
+        // Set TextView
+        textViewTime = findViewById(R.id.text_time)
+        textViewTime.text = String.format(Locale.US, "%d:%02d", (time / 60), (time % 60))
+
+        // Timer Start
+        timerStart()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -96,6 +110,11 @@ class FullscreenActivity : AppCompatActivity() {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100)
+    }
+
+    override fun onStop() {
+        timerStop()
+        super.onStop()
     }
 
     private fun toggle() {
@@ -118,17 +137,17 @@ class FullscreenActivity : AppCompatActivity() {
         hideHandler.postDelayed(hidePart2Runnable, UI_ANIMATION_DELAY.toLong())
     }
 
-    private fun show() {
-        // Show the system bar
-        fullscreenContent.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-        isFullscreen = true
-
-        // Schedule a runnable to display UI elements after a delay
-        hideHandler.removeCallbacks(hidePart2Runnable)
-        hideHandler.postDelayed(showPart2Runnable, UI_ANIMATION_DELAY.toLong())
-    }
+//    private fun show() {
+//        // Show the system bar
+//        fullscreenContent.systemUiVisibility =
+//            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+//                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//        isFullscreen = true
+//
+//        // Schedule a runnable to display UI elements after a delay
+//        hideHandler.removeCallbacks(hidePart2Runnable)
+//        hideHandler.postDelayed(showPart2Runnable, UI_ANIMATION_DELAY.toLong())
+//    }
 
     /**
      * Schedules a call to hide() in [delayMillis], canceling any
@@ -157,5 +176,32 @@ class FullscreenActivity : AppCompatActivity() {
          * and a change of the status and navigation bar.
          */
         private const val UI_ANIMATION_DELAY = 300
+    }
+
+    private fun timerStart() {
+        Log.d("Test","Timer Start")
+
+        // period = 10 -> 0.01
+        timerTask = kotlin.concurrent.timer(period = 1000) {
+            time--
+            Log.d("Test","Timer = $time")
+
+            if (time <= 0)
+            {
+                timerStop()
+            }
+
+            // UI
+            runOnUiThread {
+                Log.d("Test","UI Thread")
+                textViewTime.text = String.format(Locale.US, "%d:%02d", (time / 60), (time % 60))
+            }
+        }
+    }
+
+    private fun timerStop() {
+        timerTask?.cancel()
+        Log.d("Test","Timer Stop")
+        finish()
     }
 }
