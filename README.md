@@ -1,8 +1,9 @@
 ****
 
 # Wavelength
-Wavelength
-- 
+Wavelength History
+- Calculate Wavelength to RGB
+- 3 Minutes Timer 
 
 # Help
 - 해당 논문 : Optically Improved Mitochondrial Function Redeems Aged Human Visual Decline (https://academic.oup.com/biomedgerontology/article/75/9/e49/5863431)
