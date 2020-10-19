@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import sch6393.app.wavelength.MainActivity
 import sch6393.app.wavelength.R
 import java.util.*
 import kotlin.math.pow
@@ -37,8 +38,12 @@ class SettingFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_setting, container, false)
 
         val textViewWL: TextView = root.findViewById(R.id.text_wl)
+        textViewWL.text = MainActivity.WL.toString()
+        textViewWL.background = Color.rgb(MainActivity.RGB[0], MainActivity.RGB[1], MainActivity.RGB[2]).toDrawable()
+
 
         val seekBar: SeekBar = root.findViewById(R.id.seekBar_wl)
+        seekBar.progress = MainActivity.WL - wlCorrection
         seekBar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
                 // ツマミがドラッグされると呼ばれる
@@ -50,6 +55,10 @@ class SettingFragment : Fragment() {
                     textViewWL.text = str
                     textViewWL.background = Color.rgb(rgb[0], rgb[1], rgb[2]).toDrawable()
                     Log.d("Test", "r = " + rgb[0] + "  g = " + rgb[1] + "  b = " + rgb[2])
+
+                    MainActivity.RGB = rgb
+                    MainActivity.WL = (i + wlCorrection)
+                    (activity as MainActivity).saveData(rgb[0], rgb[1], rgb[2], (i + wlCorrection))
                 }
 
                 // ツマミがタッチされた時に呼ばれる

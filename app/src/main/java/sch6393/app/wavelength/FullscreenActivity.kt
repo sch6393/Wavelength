@@ -2,6 +2,7 @@ package sch6393.app.wavelength
 
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -91,9 +92,11 @@ class FullscreenActivity : AppCompatActivity() {
 //        findViewById<Button>(R.id.dummy_button).setOnTouchListener(delayHideTouchListener)
 
         // Set Color
-        val color = intent.getIntExtra("COLOR", 0)
         val backGround: FrameLayout = findViewById(R.id.frameLayout_bg)
-        backGround.setBackgroundColor(color)
+//        val color = intent.getIntExtra("COLOR", 0)
+//        backGround.setBackgroundColor(color)
+        val rgb: IntArray = intent.getIntArrayExtra("RGB")!!
+        backGround.setBackgroundColor(Color.rgb(rgb[0], rgb[1], rgb[2]))
 
         // Set TextView
         textViewTime = findViewById(R.id.text_time)

@@ -17,6 +17,11 @@ import androidx.appcompat.widget.Toolbar
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        var RGB = IntArray(3)
+        var WL = 0
+    }
+
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
+        loadData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -53,5 +58,29 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    fun saveData(r:Int, g:Int, b:Int, wl:Int) {
+        val pref = this.getPreferences(0)
+        val editor = pref.edit()
+
+        editor.putInt("KEY_R", r)
+                .putInt("KEY_G", g)
+                .putInt("KEY_B", b)
+                .putInt("KEY_WL", wl)
+                .apply()
+    }
+
+    private fun loadData() {
+        val pref = this.getPreferences(0)
+        val r = pref.getInt("KEY_R",255)
+        val g = pref.getInt("KEY_G",0)
+        val b = pref.getInt("KEY_B",0)
+        val wl = pref.getInt("KEY_WL",645)
+
+        RGB[0] = r
+        RGB[1] = g
+        RGB[2] = b
+        WL = wl
     }
 }

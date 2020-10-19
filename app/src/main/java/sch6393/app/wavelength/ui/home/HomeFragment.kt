@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import sch6393.app.wavelength.FullscreenActivity
+import sch6393.app.wavelength.MainActivity
 import sch6393.app.wavelength.R
 
 class HomeFragment : Fragment() {
@@ -35,7 +36,8 @@ class HomeFragment : Fragment() {
             buttonStart.setOnClickListener {
                 activity?.let{
                     val intent = Intent(it, FullscreenActivity::class.java)
-                    intent.putExtra("COLOR", Color.RED)
+                    intent.putExtra("RGB", MainActivity.RGB)
+//                    intent.putExtra("COLOR", Color.RED)
                     it.startActivity(intent)
                 }
             }
